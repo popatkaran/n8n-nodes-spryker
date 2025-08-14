@@ -1,0 +1,24 @@
+{
+	"node": "n8n-nodes-spryker.Spryker",
+	"nodeVersion": "1.0.0",
+	"codex": {
+		"categories": ["Development", "E-commerce"],
+		"subcategories": {
+			"Development": ["API"],
+			"E-commerce": ["CMS", "Content Management"]
+		},
+		"resources": {
+			"primaryDocumentation": [
+				{
+					"url": "https://docs.spryker.com/docs/scos/dev/glue-api-guides/"
+				}
+			],
+			"credentialDocumentation": [
+				{
+					"url": "https://docs.spryker.com/docs/scos/dev/glue-api-guides/202311.0/authentication-and-authorization.html"
+				}
+			]
+		},
+		"alias": ["Spryker Commerce", "Spryker API", "CMS", "E-commerce"]
+	}
+}
