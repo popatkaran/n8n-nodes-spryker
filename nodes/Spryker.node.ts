@@ -85,6 +85,74 @@ async function getCmsPages(executeFunctions: IExecuteFunctions, itemIndex: numbe
 	}
 }
 
+// Helper function for getting a single CMS page by ID
+async function getCmsPageById(executeFunctions: IExecuteFunctions, itemIndex: number): Promise<INodeExecutionData[]> {
+	const baseUrl = executeFunctions.getNodeParameter('baseUrl', itemIndex) as string;
+	const cmsPageId = executeFunctions.getNodeParameter('cmsPageId', itemIndex) as string;
+	const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex) as any;
+
+	// Build query parameters manually
+	const queryParams: string[] = [];
+
+	if (additionalFields.include) {
+		queryParams.push(`include=${encodeURIComponent(additionalFields.include)}`);
+	}
+
+	// Build the URL
+	let url = `${baseUrl.replace(/\/$/, '')}/cms-pages/${encodeURIComponent(cmsPageId)}`;
+	if (queryParams.length > 0) {
+		url += `?${queryParams.join('&')}`;
+	}
+
+	const options: IRequestOptions = {
+		method: 'GET' as IHttpRequestMethods,
+		uri: url,
+		headers: {
+			'Accept': 'application/json',
+			'Accept-Language': 'en', // Can be made configurable later
+		},
+		json: true,
+	};
+
+	// Add authentication if required
+	const authentication = executeFunctions.getNodeParameter('authentication', itemIndex) as string;
+	if (authentication === 'accessToken') {
+		const credentials = await executeFunctions.getCredentials('sprykerApi');
+		if (credentials && credentials.accessToken) {
+			options.headers!['Authorization'] = `Bearer ${credentials.accessToken}`;
+		}
+	}
+
+	try {
+		const response = await executeFunctions.helpers.request(options);
+
+		// Handle Spryker API response structure for single item
+		if (response && response.data) {
+			const cmsPage = response.data;
+			return [{
+				json: {
+					id: cmsPage.id,
+					type: cmsPage.type,
+					...cmsPage.attributes,
+					links: cmsPage.links,
+					// Include the full original object for reference
+					_raw: cmsPage,
+				},
+			}];
+		}
+
+		// Fallback: return the raw response if structure is unexpected
+		return [{ json: response }];
+
+	} catch (error) {
+		throw new NodeOperationError(
+			executeFunctions.getNode(),
+			`Spryker API request failed: ${error.message}`,
+			{ itemIndex }
+		);
+	}
+}
+
 export class Spryker implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Spryker',
@@ -176,16 +244,30 @@ export class Spryker implements INodeType {
 						description: 'Get many CMS pages',
 						action: 'Get many CMS pages',
 					},
-					// Future operations can be added here:
-					// {
-					//     name: 'Get',
-					//     value: 'get',
-					//     description: 'Get a specific CMS page',
-					//     action: 'Get a CMS page',
-					// },
+					{
+						name: 'Get by ID',
+						value: 'get',
+						description: 'Get a specific CMS page by ID',
+						action: 'Get a CMS page by ID',
+					},
 				],
 				default: 'getAll',
 				required: true,
+			},
+			{
+				displayName: 'CMS Page ID',
+				name: 'cmsPageId',
+				type: 'string',
+				required: true,
+				displayOptions: {
+					show: {
+						resource: ['cmsPages'],
+						operation: ['get'],
+					},
+				},
+				default: '',
+				description: 'The ID of the CMS page to retrieve',
+				placeholder: '10014bd9-4bba-5a54-b84f-31b4b7efd064',
 			},
 			{
 				displayName: 'Additional Fields',
@@ -231,6 +313,29 @@ export class Spryker implements INodeType {
 					},
 				],
 			},
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: {
+					show: {
+						resource: ['cmsPages'],
+						operation: ['get'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Include',
+						name: 'include',
+						type: 'string',
+						default: '',
+						description: 'Comma-separated list of resources to include in the response',
+						placeholder: 'cms-blocks,glossary-keys',
+					},
+				],
+			},
 		],
 	};
 
@@ -247,6 +352,8 @@ export class Spryker implements INodeType {
 				if (resource === 'cmsPages') {
 					if (operation === 'getAll') {
 						responseData = await getCmsPages(this, i);
+					} else if (operation === 'get') {
+						responseData = await getCmsPageById(this, i);
 					}
 				}
 
