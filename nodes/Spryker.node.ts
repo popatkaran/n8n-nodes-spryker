@@ -10,6 +10,7 @@ import { SprykerResource, SprykerOperation, SprykerExecutionContext } from './ty
 
 export class Spryker implements INodeType {
 	description = sprykerNodeConfig;
+	icon = sprykerNodeConfig.icon;
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();

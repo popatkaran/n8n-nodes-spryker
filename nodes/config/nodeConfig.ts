@@ -3,6 +3,7 @@ import { INodeTypeDescription, NodeConnectionType } from 'n8n-workflow';
 export const sprykerNodeConfig: INodeTypeDescription = {
 	displayName: 'Spryker',
 	name: 'spryker',
+	icon: 'file:spryker.svg',
 	group: ['output'],
 	version: 1,
 	subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
