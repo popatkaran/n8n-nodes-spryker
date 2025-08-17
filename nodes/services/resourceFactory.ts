@@ -1,6 +1,7 @@
 import { INodeExecutionData } from 'n8n-workflow';
 import { SprykerExecutionContext, SprykerResource, SprykerOperation } from '../types';
 import { CmsPageService } from './cmsPageService';
+import { AbstractProductService } from './abstractProductService';
 
 export class SprykerResourceFactory {
 	private context: SprykerExecutionContext;
@@ -15,9 +16,11 @@ export class SprykerResourceFactory {
 		switch (resource) {
 			case 'cmsPages':
 				return this.handleCmsPageOperations(operation);
+			case 'abstractProducts':
+				return this.handleAbstractProductOperations(operation);
 			// Future resources can be added here:
-			// case 'products':
-			//     return this.handleProductOperations(operation);
+			// case 'concreteProducts':
+			//     return this.handleConcreteProductOperations(operation);
 			// case 'customers':
 			//     return this.handleCustomerOperations(operation);
 			default:
@@ -38,9 +41,20 @@ export class SprykerResourceFactory {
 		}
 	}
 
+	private async handleAbstractProductOperations(operation: SprykerOperation): Promise<INodeExecutionData[]> {
+		const abstractProductService = new AbstractProductService(this.context, this.itemIndex);
+
+		switch (operation) {
+			case 'get':
+				return abstractProductService.getById();
+			default:
+				throw new Error(`Unsupported abstract product operation: ${operation}`);
+		}
+	}
+
 	// Future resource handlers can be added here:
-	// private async handleProductOperations(operation: SprykerOperation): Promise<INodeExecutionData[]> {
-	//     // Product service logic
+	// private async handleConcreteProductOperations(operation: SprykerOperation): Promise<INodeExecutionData[]> {
+	//     // Concrete product service logic
 	// }
 
 	// private async handleCustomerOperations(operation: SprykerOperation): Promise<INodeExecutionData[]> {

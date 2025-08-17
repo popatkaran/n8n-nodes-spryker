@@ -61,10 +61,14 @@ export const sprykerNodeConfig: INodeTypeDescription = {
 					name: 'CMS Page',
 					value: 'cmsPages',
 				},
+				{
+					name: 'Abstract Product',
+					value: 'abstractProducts',
+				},
 				// Future resources can be added here:
 				// {
-				//     name: 'Products',
-				//     value: 'products',
+				//     name: 'Concrete Products',
+				//     value: 'concreteProducts',
 				// },
 				// {
 				//     name: 'Customers',
@@ -102,6 +106,27 @@ export const sprykerNodeConfig: INodeTypeDescription = {
 			required: true,
 		},
 		{
+			displayName: 'Operation',
+			name: 'operation',
+			type: 'options',
+			noDataExpression: true,
+			displayOptions: {
+				show: {
+					resource: ['abstractProducts'],
+				},
+			},
+			options: [
+				{
+					name: 'Get by ID',
+					value: 'get',
+					description: 'Get a specific abstract product by ID',
+					action: 'Get an abstract product by ID',
+				},
+			],
+			default: 'get',
+			required: true,
+		},
+		{
 			displayName: 'CMS Page ID',
 			name: 'cmsPageId',
 			type: 'string',
@@ -115,6 +140,21 @@ export const sprykerNodeConfig: INodeTypeDescription = {
 			default: '',
 			description: 'The ID of the CMS page to retrieve',
 			placeholder: '10014bd9-4bba-5a54-b84f-31b4b7efd064',
+		},
+		{
+			displayName: 'Abstract Product ID',
+			name: 'abstractProductId',
+			type: 'string',
+			required: true,
+			displayOptions: {
+				show: {
+					resource: ['abstractProducts'],
+					operation: ['get'],
+				},
+			},
+			default: '',
+			description: 'The ID/SKU of the abstract product to retrieve',
+			placeholder: '001',
 		},
 		{
 			displayName: 'Additional Fields',
@@ -203,6 +243,44 @@ export const sprykerNodeConfig: INodeTypeDescription = {
 					default: '',
 					description: 'Comma-separated list of fields to extract from the response',
 					placeholder: 'name,url',
+				},
+				{
+					displayName: 'Raw Response',
+					name: 'rawResponse',
+					type: 'boolean',
+					default: false,
+					description: 'Whether to return the raw response from the API',
+				},
+			],
+		},
+		{
+			displayName: 'Additional Fields',
+			name: 'additionalFields',
+			type: 'collection',
+			placeholder: 'Add Field',
+			default: {},
+			displayOptions: {
+				show: {
+					resource: ['abstractProducts'],
+					operation: ['get'],
+				},
+			},
+			options: [
+				{
+					displayName: 'Include',
+					name: 'include',
+					type: 'string',
+					default: '',
+					description: 'Comma-separated list of resources to include in the response',
+					placeholder: 'concrete-products,product-labels',
+				},
+				{
+					displayName: 'Fields to Extract',
+					name: 'fieldsToExtract',
+					type: 'string',
+					default: '',
+					description: 'Comma-separated list of fields to extract from the response',
+					placeholder: 'sku,name,description,averageRating',
 				},
 				{
 					displayName: 'Raw Response',

@@ -71,6 +71,10 @@ export async function createSprykerRequest(
 			'Accept-Language': 'en',
 		},
 		json: true,
+		// @ts-ignore
+		tls: {
+			rejectUnauthorized: false,
+		},
 	};
 
 	// Add authentication if required
