@@ -61,10 +61,12 @@ export async function createSprykerRequest(
 	context: SprykerExecutionContext,
 	url: string,
 	authentication: string,
-	itemIndex: number
+	itemIndex: number,
+	method: IHttpRequestMethods = 'GET',
+	body?: any
 ): Promise<IRequestOptions> {
 	const options: IRequestOptions = {
-		method: 'GET' as IHttpRequestMethods,
+		method,
 		uri: url,
 		headers: {
 			'Accept': 'application/json',
@@ -76,6 +78,12 @@ export async function createSprykerRequest(
 			rejectUnauthorized: false,
 		},
 	};
+
+	// Add Content-Type header for POST requests
+	if (method === 'POST' && body) {
+		options.headers!['Content-Type'] = 'application/json';
+		options.body = body;
+	}
 
 	// Add authentication if required
 	if (authentication === 'accessToken') {

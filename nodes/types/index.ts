@@ -36,6 +36,76 @@ export interface AbstractProductAttributes {
 	_raw: any;
 }
 
+export interface PriceAttributes {
+	id: string;
+	type: string;
+	price: number;
+	prices: Array<{
+		priceTypeName: string;
+		netAmount: number | null;
+		grossAmount: number;
+		currency: {
+			code: string;
+			name: string;
+			symbol: string;
+		};
+		volumePrices: Array<{
+			netAmount: number;
+			grossAmount: number;
+			quantity: number;
+		}>;
+	}>;
+	links: any;
+	_raw: any;
+}
+
+export interface AvailabilityAttributes {
+	id: string;
+	type: string;
+	availability: boolean;
+	quantity: string;
+	links: any;
+	_raw: any;
+}
+
+export interface ImageSetAttributes {
+	id: string;
+	type: string;
+	imageSets: Array<{
+		name: string;
+		images: Array<{
+			externalUrlLarge: string;
+			externalUrlSmall: string;
+		}>;
+	}>;
+	links: any;
+	_raw: any;
+}
+
+export interface TaxSetAttributes {
+	id: string;
+	type: string;
+	name: string;
+	restTaxRates: Array<{
+		name: string;
+		rate: string;
+		country: string;
+	}>;
+	links: any;
+	_raw: any;
+}
+
+export interface ReviewAttributes {
+	id: string;
+	type: string;
+	rating: number;
+	nickname: string;
+	summary: string;
+	description: string;
+	links: any;
+	_raw: any;
+}
+
 export interface SprykerApiResponse {
 	data: any[] | any;
 	links?: any;
@@ -60,7 +130,7 @@ export interface SprykerRequestOptions {
 }
 
 export type SprykerResource = 'cmsPages' | 'abstractProducts';
-export type SprykerOperation = 'getAll' | 'get';
+export type SprykerOperation = 'getAll' | 'get' | 'getPrices' | 'getAvailabilities' | 'getRelatedProducts' | 'getImages' | 'getTaxSets' | 'getReviews' | 'getReview' | 'createReview';
 
 export interface SprykerExecutionContext {
 	getNodeParameter: (name: string, itemIndex: number) => any;

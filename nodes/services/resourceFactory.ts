@@ -47,6 +47,22 @@ export class SprykerResourceFactory {
 		switch (operation) {
 			case 'get':
 				return abstractProductService.getById();
+			case 'getPrices':
+				return abstractProductService.getPrices();
+			case 'getAvailabilities':
+				return abstractProductService.getAvailabilities();
+			case 'getRelatedProducts':
+				return abstractProductService.getRelatedProducts();
+			case 'getImages':
+				return abstractProductService.getImages();
+			case 'getTaxSets':
+				return abstractProductService.getTaxSets();
+			case 'getReviews':
+				return abstractProductService.getReviews();
+			case 'getReview':
+				return abstractProductService.getReview();
+			case 'createReview':
+				return abstractProductService.createReview();
 			default:
 				throw new Error(`Unsupported abstract product operation: ${operation}`);
 		}
