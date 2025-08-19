@@ -13,10 +13,9 @@ export class AbstractProductService {
 
 	private getRequestParameters() {
 		const baseUrl = this.context.getNodeParameter('baseUrl', this.itemIndex) as string;
-		const authentication = this.context.getNodeParameter('authentication', this.itemIndex) as string;
 		const additionalFields = this.context.getNodeParameter('additionalFields', this.itemIndex) as QueryParams;
 
-		return { baseUrl, authentication, additionalFields };
+		return { baseUrl, additionalFields };
 	}
 
 	private transformAbstractProductResponse(data: any, fieldsToExtract?: string): INodeExecutionData {
@@ -65,7 +64,7 @@ export class AbstractProductService {
 	}
 
 	async getById(): Promise<INodeExecutionData[]> {
-		const { baseUrl, authentication, additionalFields } = this.getRequestParameters();
+		const { baseUrl, additionalFields } = this.getRequestParameters();
 		const abstractProductId = this.context.getNodeParameter('abstractProductId', this.itemIndex) as string;
 
 		if (additionalFields.rawResponse) {
@@ -73,7 +72,7 @@ export class AbstractProductService {
 				.setEndpoint(`abstract-products/${encodeURIComponent(abstractProductId)}`)
 				.addInclude(additionalFields.include)
 				.build();
-			const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+			const options = await createSprykerRequest(this.context, url, this.itemIndex);
 			const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 			return [{ json: response }];
 		}
@@ -83,7 +82,7 @@ export class AbstractProductService {
 			.addInclude(additionalFields.include)
 			.build();
 
-		const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+		const options = await createSprykerRequest(this.context, url, this.itemIndex);
 		const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 
 		if (response && response.data) {
@@ -95,7 +94,7 @@ export class AbstractProductService {
 	}
 
 	async getPrices(): Promise<INodeExecutionData[]> {
-		const { baseUrl, authentication, additionalFields } = this.getRequestParameters();
+		const { baseUrl, additionalFields } = this.getRequestParameters();
 		const abstractProductId = this.context.getNodeParameter('abstractProductId', this.itemIndex) as string;
 
 		if (additionalFields.rawResponse) {
@@ -103,7 +102,7 @@ export class AbstractProductService {
 				.setEndpoint(`abstract-products/${encodeURIComponent(abstractProductId)}/abstract-product-prices`)
 				.addInclude(additionalFields.include)
 				.build();
-			const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+			const options = await createSprykerRequest(this.context, url, this.itemIndex);
 			const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 			return [{ json: response }];
 		}
@@ -113,7 +112,7 @@ export class AbstractProductService {
 			.addInclude(additionalFields.include)
 			.build();
 
-		const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+		const options = await createSprykerRequest(this.context, url, this.itemIndex);
 		const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 
 		if (response && response.data) {
@@ -124,7 +123,7 @@ export class AbstractProductService {
 	}
 
 	async getAvailabilities(): Promise<INodeExecutionData[]> {
-		const { baseUrl, authentication, additionalFields } = this.getRequestParameters();
+		const { baseUrl, additionalFields } = this.getRequestParameters();
 		const abstractProductId = this.context.getNodeParameter('abstractProductId', this.itemIndex) as string;
 
 		if (additionalFields.rawResponse) {
@@ -132,7 +131,7 @@ export class AbstractProductService {
 				.setEndpoint(`abstract-products/${encodeURIComponent(abstractProductId)}/abstract-product-availabilities`)
 				.addInclude(additionalFields.include)
 				.build();
-			const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+			const options = await createSprykerRequest(this.context, url, this.itemIndex);
 			const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 			return [{ json: response }];
 		}
@@ -142,7 +141,7 @@ export class AbstractProductService {
 			.addInclude(additionalFields.include)
 			.build();
 
-		const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+		const options = await createSprykerRequest(this.context, url, this.itemIndex);
 		const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 
 		if (response && response.data) {
@@ -153,7 +152,7 @@ export class AbstractProductService {
 	}
 
 	async getRelatedProducts(): Promise<INodeExecutionData[]> {
-		const { baseUrl, authentication, additionalFields } = this.getRequestParameters();
+		const { baseUrl, additionalFields } = this.getRequestParameters();
 		const abstractProductId = this.context.getNodeParameter('abstractProductId', this.itemIndex) as string;
 
 		if (additionalFields.rawResponse) {
@@ -161,7 +160,7 @@ export class AbstractProductService {
 				.setEndpoint(`abstract-products/${encodeURIComponent(abstractProductId)}/related-products`)
 				.addInclude(additionalFields.include)
 				.build();
-			const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+			const options = await createSprykerRequest(this.context, url, this.itemIndex);
 			const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 			return [{ json: response }];
 		}
@@ -171,7 +170,7 @@ export class AbstractProductService {
 			.addInclude(additionalFields.include)
 			.build();
 
-		const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+		const options = await createSprykerRequest(this.context, url, this.itemIndex);
 		const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 
 		if (response && response.data) {
@@ -182,7 +181,7 @@ export class AbstractProductService {
 	}
 
 	async getImages(): Promise<INodeExecutionData[]> {
-		const { baseUrl, authentication, additionalFields } = this.getRequestParameters();
+		const { baseUrl, additionalFields } = this.getRequestParameters();
 		const abstractProductId = this.context.getNodeParameter('abstractProductId', this.itemIndex) as string;
 
 		if (additionalFields.rawResponse) {
@@ -190,7 +189,7 @@ export class AbstractProductService {
 				.setEndpoint(`abstract-products/${encodeURIComponent(abstractProductId)}/abstract-product-image-sets`)
 				.addInclude(additionalFields.include)
 				.build();
-			const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+			const options = await createSprykerRequest(this.context, url, this.itemIndex);
 			const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 			return [{ json: response }];
 		}
@@ -200,7 +199,7 @@ export class AbstractProductService {
 			.addInclude(additionalFields.include)
 			.build();
 
-		const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+		const options = await createSprykerRequest(this.context, url, this.itemIndex);
 		const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 
 		if (response && response.data) {
@@ -211,7 +210,7 @@ export class AbstractProductService {
 	}
 
 	async getTaxSets(): Promise<INodeExecutionData[]> {
-		const { baseUrl, authentication, additionalFields } = this.getRequestParameters();
+		const { baseUrl, additionalFields } = this.getRequestParameters();
 		const abstractProductId = this.context.getNodeParameter('abstractProductId', this.itemIndex) as string;
 
 		if (additionalFields.rawResponse) {
@@ -219,7 +218,7 @@ export class AbstractProductService {
 				.setEndpoint(`abstract-products/${encodeURIComponent(abstractProductId)}/product-tax-sets`)
 				.addInclude(additionalFields.include)
 				.build();
-			const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+			const options = await createSprykerRequest(this.context, url, this.itemIndex);
 			const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 			return [{ json: response }];
 		}
@@ -229,7 +228,7 @@ export class AbstractProductService {
 			.addInclude(additionalFields.include)
 			.build();
 
-		const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+		const options = await createSprykerRequest(this.context, url, this.itemIndex);
 		const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 
 		if (response && response.data) {
@@ -240,7 +239,7 @@ export class AbstractProductService {
 	}
 
 	async getReviews(): Promise<INodeExecutionData[]> {
-		const { baseUrl, authentication, additionalFields } = this.getRequestParameters();
+		const { baseUrl, additionalFields } = this.getRequestParameters();
 		const abstractProductId = this.context.getNodeParameter('abstractProductId', this.itemIndex) as string;
 
 		if (additionalFields.rawResponse) {
@@ -249,7 +248,7 @@ export class AbstractProductService {
 				.addInclude(additionalFields.include)
 				.addPagination(additionalFields.pageSize, additionalFields.pageNumber)
 				.build();
-			const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+			const options = await createSprykerRequest(this.context, url, this.itemIndex);
 			const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 			return [{ json: response }];
 		}
@@ -260,7 +259,7 @@ export class AbstractProductService {
 			.addPagination(additionalFields.pageSize, additionalFields.pageNumber)
 			.build();
 
-		const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+		const options = await createSprykerRequest(this.context, url, this.itemIndex);
 		const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 
 		if (response && response.data) {
@@ -271,7 +270,7 @@ export class AbstractProductService {
 	}
 
 	async getReview(): Promise<INodeExecutionData[]> {
-		const { baseUrl, authentication, additionalFields } = this.getRequestParameters();
+		const { baseUrl, additionalFields } = this.getRequestParameters();
 		const abstractProductId = this.context.getNodeParameter('abstractProductId', this.itemIndex) as string;
 		const productReviewId = this.context.getNodeParameter('productReviewId', this.itemIndex) as string;
 
@@ -280,7 +279,7 @@ export class AbstractProductService {
 				.setEndpoint(`abstract-products/${encodeURIComponent(abstractProductId)}/product-reviews/${encodeURIComponent(productReviewId)}`)
 				.addInclude(additionalFields.include)
 				.build();
-			const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+			const options = await createSprykerRequest(this.context, url, this.itemIndex);
 			const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 			return [{ json: response }];
 		}
@@ -290,7 +289,7 @@ export class AbstractProductService {
 			.addInclude(additionalFields.include)
 			.build();
 
-		const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+		const options = await createSprykerRequest(this.context, url, this.itemIndex);
 		const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 
 		if (response && response.data) {
@@ -301,7 +300,7 @@ export class AbstractProductService {
 	}
 
 	async createReview(): Promise<INodeExecutionData[]> {
-		const { baseUrl, authentication, additionalFields } = this.getRequestParameters();
+		const { baseUrl, additionalFields } = this.getRequestParameters();
 		const abstractProductId = this.context.getNodeParameter('abstractProductId', this.itemIndex) as string;
 		const rating = this.context.getNodeParameter('rating', this.itemIndex) as number;
 		const nickname = this.context.getNodeParameter('nickname', this.itemIndex) as string;
@@ -324,7 +323,7 @@ export class AbstractProductService {
 			},
 		};
 
-		const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex, 'POST', requestBody);
+		const options = await createSprykerRequest(this.context, url, this.itemIndex, 'POST', requestBody);
 		const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 
 		if (additionalFields.rawResponse) {

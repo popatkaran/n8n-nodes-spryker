@@ -2,6 +2,13 @@ import { CmsPageService } from '../services/cmsPageService';
 import { SprykerExecutionContext } from '../types';
 import { mock } from 'jest-mock-extended';
 
+// Mock the SprykerAuthService
+jest.mock('../services/authService', () => ({
+	SprykerAuthService: jest.fn().mockImplementation(() => ({
+		getValidAccessToken: jest.fn().mockResolvedValue('mock-access-token'),
+	})),
+}));
+
 describe('CmsPageService', () => {
 	let context: SprykerExecutionContext;
 	let cmsPageService: CmsPageService;
@@ -14,6 +21,11 @@ describe('CmsPageService', () => {
 				return 'http://localhost';
 			}
 			return { additionalFields: {} };
+		});
+		(context.getCredentials as jest.Mock).mockResolvedValue({
+			username: 'test@example.com',
+			password: 'password123',
+			baseUrl: 'http://localhost',
 		});
 		cmsPageService = new CmsPageService(context, 0);
 	});

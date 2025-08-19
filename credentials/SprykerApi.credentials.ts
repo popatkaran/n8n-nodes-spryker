@@ -1,5 +1,4 @@
 import {
-	IAuthenticateGeneric,
 	ICredentialTestRequest,
 	ICredentialType,
 	INodeProperties,
@@ -11,46 +10,12 @@ export class SprykerApi implements ICredentialType {
 	documentationUrl = 'https://docs.spryker.com/docs/scos/dev/glue-api-guides/';
 	properties: INodeProperties[] = [
 		{
-			displayName: 'Authentication Method',
-			name: 'authMethod',
-			type: 'options',
-			options: [
-				{
-					name: 'Access Token',
-					value: 'accessToken',
-				},
-				{
-					name: 'Username & Password',
-					value: 'credentials',
-				},
-			],
-			default: 'accessToken',
-			description: 'Method to authenticate with Spryker API',
-		},
-		{
-			displayName: 'Access Token',
-			name: 'accessToken',
-			type: 'string',
-			typeOptions: { password: true },
-			default: '',
-			displayOptions: {
-				show: {
-					authMethod: ['accessToken'],
-				},
-			},
-			description: 'The access token for Spryker API authentication',
-		},
-		{
 			displayName: 'Username',
 			name: 'username',
 			type: 'string',
 			default: '',
-			displayOptions: {
-				show: {
-					authMethod: ['credentials'],
-				},
-			},
-			description: 'Username for Spryker authentication',
+			description: 'Your Spryker customer username/email',
+			required: true,
 		},
 		{
 			displayName: 'Password',
@@ -58,12 +23,8 @@ export class SprykerApi implements ICredentialType {
 			type: 'string',
 			typeOptions: { password: true },
 			default: '',
-			displayOptions: {
-				show: {
-					authMethod: ['credentials'],
-				},
-			},
-			description: 'Password for Spryker authentication',
+			description: 'Your Spryker customer password',
+			required: true,
 		},
 		{
 			displayName: 'Base URL',
@@ -72,10 +33,11 @@ export class SprykerApi implements ICredentialType {
 			default: 'https://glue.eu.spryker.local',
 			description: 'Base URL of your Spryker API instance',
 			placeholder: 'https://your-spryker-domain.com',
+			required: true,
 		},
 	];
 
-	// Test the credentials by attempting to get an access token or validate existing token
+	// Enhanced credential test with better error handling
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: '={{$credentials.baseUrl}}',
@@ -94,6 +56,8 @@ export class SprykerApi implements ICredentialType {
 					},
 				},
 			},
+			timeout: 30000,
+			skipSslCertificateValidation: true,
 		},
 		rules: [
 			{
@@ -101,18 +65,9 @@ export class SprykerApi implements ICredentialType {
 				properties: {
 					key: 'data.type',
 					value: 'access-tokens',
-					message: '',
+					message: 'Authentication successful! Access token retrieved.',
 				},
 			},
 		],
-	};
-
-	authenticate: IAuthenticateGeneric = {
-		type: 'generic',
-		properties: {
-			headers: {
-				Authorization: '=Bearer {{$credentials.accessToken}}',
-			},
-		},
 	};
 }

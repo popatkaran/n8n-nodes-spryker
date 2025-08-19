@@ -13,10 +13,9 @@ export class CmsPageService {
 
 	private getRequestParameters() {
 		const baseUrl = this.context.getNodeParameter('baseUrl', this.itemIndex) as string;
-		const authentication = this.context.getNodeParameter('authentication', this.itemIndex) as string;
 		const additionalFields = this.context.getNodeParameter('additionalFields', this.itemIndex) as QueryParams;
 
-		return { baseUrl, authentication, additionalFields };
+		return { baseUrl, additionalFields };
 	}
 
 	private transformCmsPageResponse(data: any[] | any, fieldsToExtract?: string): INodeExecutionData[] {
@@ -55,7 +54,7 @@ export class CmsPageService {
 	}
 
 	async getMany(): Promise<INodeExecutionData[]> {
-		const { baseUrl, authentication, additionalFields } = this.getRequestParameters();
+		const { baseUrl, additionalFields } = this.getRequestParameters();
 
 		if (additionalFields.rawResponse) {
 			const url = new SprykerRequestBuilder(baseUrl)
@@ -63,7 +62,7 @@ export class CmsPageService {
 				.addInclude(additionalFields.include)
 				.addPagination(additionalFields.pageSize, additionalFields.pageNumber)
 				.build();
-			const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+			const options = await createSprykerRequest(this.context, url, this.itemIndex);
 			const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 			return [{ json: response }];
 		}
@@ -74,7 +73,7 @@ export class CmsPageService {
 			.addPagination(additionalFields.pageSize, additionalFields.pageNumber)
 			.build();
 
-		const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+		const options = await createSprykerRequest(this.context, url, this.itemIndex);
 		const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 
 		if (response && response.data) {
@@ -87,7 +86,7 @@ export class CmsPageService {
 	}
 
 	async getById(): Promise<INodeExecutionData[]> {
-		const { baseUrl, authentication, additionalFields } = this.getRequestParameters();
+		const { baseUrl, additionalFields } = this.getRequestParameters();
 		const cmsPageId = this.context.getNodeParameter('cmsPageId', this.itemIndex) as string;
 
 		if (additionalFields.rawResponse) {
@@ -95,7 +94,7 @@ export class CmsPageService {
 				.setEndpoint(`cms-pages/${encodeURIComponent(cmsPageId)}`)
 				.addInclude(additionalFields.include)
 				.build();
-			const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+			const options = await createSprykerRequest(this.context, url, this.itemIndex);
 			const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 			return [{ json: response }];
 		}
@@ -105,7 +104,7 @@ export class CmsPageService {
 			.addInclude(additionalFields.include)
 			.build();
 
-		const options = await createSprykerRequest(this.context, url, authentication, this.itemIndex);
+		const options = await createSprykerRequest(this.context, url, this.itemIndex);
 		const response: SprykerApiResponse = await executeSprykerRequest(this.context, options, this.itemIndex);
 
 		if (response && response.data) {

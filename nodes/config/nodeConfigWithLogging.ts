@@ -52,6 +52,87 @@ export const sprykerNodeConfig: INodeTypeDescription = {
 			description: 'Authentication method to use. When credentials are configured, authentication is automatically applied regardless of this setting.',
 		},
 		{
+			displayName: 'Enable API Logging',
+			name: 'enableLogging',
+			type: 'boolean',
+			default: false,
+			description: 'Enable detailed logging of API requests and responses. Logs are saved to logs/spryker directory.',
+		},
+		{
+			displayName: 'Logging Options',
+			name: 'loggingOptions',
+			type: 'collection',
+			placeholder: 'Add Option',
+			default: {},
+			displayOptions: {
+				show: {
+					enableLogging: [true],
+				},
+			},
+			options: [
+				{
+					displayName: 'Log Level',
+					name: 'logLevel',
+					type: 'options',
+					options: [
+						{
+							name: 'Basic (Request/Response only)',
+							value: 'basic',
+							description: 'Log only request URLs and response status codes',
+						},
+						{
+							name: 'Detailed (Full request/response)',
+							value: 'detailed',
+							description: 'Log complete request and response data',
+						},
+						{
+							name: 'Debug (Include headers and timing)',
+							value: 'debug',
+							description: 'Log everything including headers and performance metrics',
+						},
+					],
+					default: 'detailed',
+					description: 'Level of detail to include in logs',
+				},
+				{
+					displayName: 'Include Request Body',
+					name: 'includeRequestBody',
+					type: 'boolean',
+					default: true,
+					description: 'Whether to include request body in logs (may contain sensitive data)',
+				},
+				{
+					displayName: 'Include Response Body',
+					name: 'includeResponseBody',
+					type: 'boolean',
+					default: true,
+					description: 'Whether to include response body in logs',
+				},
+				{
+					displayName: 'Max Log File Size (MB)',
+					name: 'maxLogFileSize',
+					type: 'number',
+					default: 10,
+					description: 'Maximum size of each log file in megabytes',
+					typeOptions: {
+						minValue: 1,
+						maxValue: 100,
+					},
+				},
+				{
+					displayName: 'Log Retention Days',
+					name: 'logRetentionDays',
+					type: 'number',
+					default: 30,
+					description: 'Number of days to keep log files',
+					typeOptions: {
+						minValue: 1,
+						maxValue: 365,
+					},
+				},
+			],
+		},
+		{
 			displayName: 'Resource',
 			name: 'resource',
 			type: 'options',

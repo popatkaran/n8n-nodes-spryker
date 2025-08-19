@@ -1,5 +1,29 @@
 export interface SprykerCredentials {
-	accessToken?: string;
+	username: string;
+	password: string;
+	baseUrl: string;
+}
+
+export interface SprykerTokenResponse {
+	data: {
+		type: string;
+		id: string | null;
+		attributes: {
+			tokenType: string;
+			expiresIn: number;
+			accessToken: string;
+			refreshToken: string;
+		};
+		links: {
+			self: string;
+		};
+	};
+}
+
+export interface SprykerTokenCache {
+	accessToken: string;
+	refreshToken: string;
+	expiresAt: number;
 }
 
 export interface CmsPageAttributes {

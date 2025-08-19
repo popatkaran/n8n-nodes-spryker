@@ -6,10 +6,11 @@ Spryker is a composable commerce platform for sophisticated transactional busine
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-[Installation](#installation)
-[Operations](#operations)
-[Credentials](#credentials)
-[Compatibility](#compatibility)
+[Installation](#installation)  
+[Operations](#operations)  
+[Credentials](#credentials)  
+[Compatibility](#compatibility)  
+[Documentation](#documentation)  
 [Resources](#resources)
 
 ## Installation
@@ -39,21 +40,13 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 - **Pagination** - Support for paginated results where applicable
 - **Include Relations** - Include related resources in API responses using Spryker's include parameter
 - **Error Handling** - Comprehensive error handling with continue-on-fail support
+- **Automatic Token Management** - Handles token expiration and refresh automatically
+- **Optional Logging** - Detailed request/response logging for debugging and monitoring
 
 ## Credentials
 
-To use this node, you need to authenticate with the Spryker API. This node supports two authentication methods:
+To use this node, you need to authenticate with the Spryker API using your user credentials:
 
-- **Access Token:** You can provide an access token directly.
-- **Username & Password:** You can provide your username and password, and the node will automatically fetch an access token for you.
-
-You will also need to provide the Base URL of your Spryker API instance (e.g., `https://glue.eu.spryker.local`).
-
-## Compatibility
-
-This node is compatible with n8n version 1.0.0 and later.
-
-## Resources
-
-- [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
-- [Spryker API documentation](https://docs.spryker.com/docs/scos/dev/glue-api-guides/)
+- **Username:** Your Spryker customer username/email
+- **Password:** Your Spryker customer password
+- **Base URL:** The base URL of your Spryker API instance (e.g., `http://glue.eu.spryker.local`)

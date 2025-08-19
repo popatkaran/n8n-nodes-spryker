@@ -2,6 +2,13 @@ import { AbstractProductService } from '../services/abstractProductService';
 import { SprykerExecutionContext } from '../types';
 import { mock } from 'jest-mock-extended';
 
+// Mock the SprykerAuthService
+jest.mock('../services/authService', () => ({
+	SprykerAuthService: jest.fn().mockImplementation(() => ({
+		getValidAccessToken: jest.fn().mockResolvedValue('mock-access-token'),
+	})),
+}));
+
 // Mock the request utilities
 jest.mock('../utils/request', () => ({
 	SprykerRequestBuilder: jest.fn().mockImplementation(() => ({
@@ -328,7 +335,6 @@ describe('AbstractProductService', () => {
 			expect(createSprykerRequest).toHaveBeenCalledWith(
 				mockContext,
 				'http://test.com/api',
-				'none',
 				0,
 				'POST',
 				{
